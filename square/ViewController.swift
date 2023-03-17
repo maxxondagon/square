@@ -25,16 +25,17 @@ class ViewController: UIViewController {
         view.addSubview(square)
         square.frame = CGRect(x: 0, y:0, width: 100, height: 100)
         square.center = view.center
+        animator = UIDynamicAnimator(referenceView: view)
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         guard let touch = touches.first else { return }
         let location = touch.location(in: view)
-        createAnimation(point: location)
+        animator.removeAllBehaviors()
+        moveToPoint(point: location)
     }
     
-    func createAnimation(point: CGPoint) {
-        animator = UIDynamicAnimator(referenceView: view)
+    func moveToPoint(point: CGPoint) {
         let collision = UICollisionBehavior(items: [square])
         collision.translatesReferenceBoundsIntoBoundary = true
         animator.addBehavior(collision)
